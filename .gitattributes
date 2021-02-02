@@ -1,0 +1,15 @@
+# Auto detect text files and perform LF normalization. Handles files NOT listed below.
+* text=auto eol=lf
+
+# Text files
+*.js           text
+*.json         text
+*.md           text
+*.txt          text
+
+.editorconfig  text
+.gitattributes text
+
+# Binary files
+*.jpg          binary
+*.png          binary
