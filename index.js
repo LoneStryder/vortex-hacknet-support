@@ -75,6 +75,7 @@ function getExtensionName(destination, modFile) {
 			let extName;
 			try {
 				extName = libxml.parseXmlString(xmlData).get('//Name').text();
+				extName = extName.replace(/[\/:*?"<>|]/g, '');
 				if (extName === '') {
 					return Promise.reject(new util.DataInvalid('Name missing in ExtensionInfo.xml'));
 				} else return Promise.resolve(extName);
