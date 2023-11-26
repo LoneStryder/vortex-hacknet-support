@@ -1,6 +1,6 @@
 const Promise = require('bluebird');
 const path = require('path');
-const libxml = require('libxmljs');
+const { parseStringPromise } = require('xml2js');
 const { fs, util } = require('vortex-api');
 
 // Platform specific IDs used by Hacknet.
@@ -71,10 +71,10 @@ function installHacknetMod(files, destinationPath, api) {
 // Extensions need to be in seperate folders, so the name specified in ExtensionInfo.xml is used.
 function getExtensionName(destination, modFile) {
 	return fs.readFileAsync(path.join(destination, modFile))
-		.then(xmlData => {
+		.then(async xmlData => {
 			let extName;
 			try {
-				extName = libxml.parseXmlString(xmlData).get('//Name').text();
+				extName = (await parseStringPromise(xmlData))?.HacknetExtension?.Name?.[0];
 				extName = extName.replace(/[\/:*?"<>|]/g, '');
 				if (extName === '') {
 					return Promise.reject(new util.DataInvalid('Name missing in ExtensionInfo.xml'));
